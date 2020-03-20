@@ -4,7 +4,8 @@ import { config } from './config/config';
 const c = config.dev;
 
 //Configure AWS
-var credentials = new AWS.SharedIniFileCredentials({profile: 'default'});
+// var credentials = new AWS.SharedIniFileCredentials({profile: 'default'});
+var credentials = new AWS.Credentials({accessKeyId:c.aws_access_key_id, secretAccessKey:c.aws_secret_access_key, sessionToken:c.aws_session_token});
 AWS.config.credentials = credentials;
 
 export const s3 = new AWS.S3({
