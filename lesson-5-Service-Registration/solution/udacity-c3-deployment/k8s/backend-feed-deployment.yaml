@@ -5,14 +5,14 @@ metadata:
     service: backend-feed
   name: backend-feed
 spec:
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
         service: backend-feed
     spec:
       containers:
-      - image: scheele/udacity-restapi-feed
+      - image: selmy/udacity-restapi-feed:latest
         name: backend-feed
         imagePullPolicy: Always  
         resources:
@@ -76,4 +76,4 @@ spec:
       volumes:
       - name: aws-secret
         secret:
-          secretName: aws-secret       
+          secretName: aws-secret

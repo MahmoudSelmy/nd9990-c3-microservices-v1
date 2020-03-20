@@ -5,14 +5,14 @@ metadata:
     service: backend-user
   name: backend-user
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
         service: backend-user
     spec:
       containers:
-      - image: scheele/udacity-restapi-user
+      - image: selmy/udacity-restapi-user:latest
         name: backend-user 
         imagePullPolicy: Always  
         resources:
@@ -27,7 +27,22 @@ spec:
           valueFrom:
             configMapKeyRef:
               name: env-config
-              key: URL 
+              key: URL
+        - name: AWS_BUCKET
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: AWS_BUCKET
+        - name: AWS_PROFILE
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: AWS_PROFILE
+        - name: AWS_REGION
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: AWS_REGION
         - name: JWT_SECRET
           valueFrom:
             configMapKeyRef:
@@ -53,6 +68,12 @@ spec:
             secretKeyRef:
               name: env-secret
               key: POSTGRESS_USERNAME
+        volumeMounts:
+        - name: aws-secret
+          mountPath: "/root/.aws/"
+          readOnly: true  
       restartPolicy: Always
-
-
+      volumes:
+      - name: aws-secret
+        secret:
+          secretName: aws-secret
